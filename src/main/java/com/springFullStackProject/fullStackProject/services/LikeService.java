@@ -2,6 +2,7 @@ package com.springFullStackProject.fullStackProject.services;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -10,6 +11,7 @@ import com.springFullStackProject.fullStackProject.entities.Post;
 import com.springFullStackProject.fullStackProject.entities.User;
 import com.springFullStackProject.fullStackProject.repos.LikeRepository;
 import com.springFullStackProject.fullStackProject.requests.LikeCreateRequest;
+import com.springFullStackProject.fullStackProject.responses.LikeResponse;
 
 @Service
 public class LikeService {
@@ -18,20 +20,24 @@ public class LikeService {
 	UserServices userService;
 	PostService postService;
 
-	public LikeService(LikeRepository likeRepository) {
+	public LikeService(LikeRepository likeRepository, UserServices userService, PostService postService) {
 		this.likeRepository = likeRepository;
+		this.userService = userService;
+		this.postService = postService;
 	}
 	
-	public List<Like> getAllLikes(Optional<Long> postId, Optional<Long> userId){
+	public List<LikeResponse> getAllLikes(Optional<Long> postId, Optional<Long> userId){
+		List <Like> list;
 		if(postId.isPresent() && userId.isPresent()) {
-			return likeRepository.findByPostIdAndUserId(postId, userId);			
+			list = likeRepository.findByPostIdAndUserId(postId, userId);			
 		} else if(postId.isPresent()) {
-			return likeRepository.findByPostId(postId);
+			list = likeRepository.findByPostId(postId);
 		} else if(userId.isPresent()) {
-			return likeRepository.findByUserId(userId);
+			list = likeRepository.findByUserId(userId);
 		} else {
-			return likeRepository.findAll();
+			list = likeRepository.findAll();
 		}
+		return list.stream().map(like -> new LikeResponse(like)).collect(Collectors.toList());
 	}
 
 	public Like createOneLike(LikeCreateRequest likeRequest) {

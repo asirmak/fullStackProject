@@ -1,5 +1,7 @@
 package com.springFullStackProject.fullStackProject.responses;
 
+import java.util.List;
+
 import com.springFullStackProject.fullStackProject.entities.Post;
 
 import lombok.Data;
@@ -12,15 +14,16 @@ public class PostResponse {
 	private String userName;
 	private String title;
 	private String text;
+	private List<LikeResponse> postLike;
 	
-	public PostResponse(Post entity) {
+	public PostResponse(Post entity, List<LikeResponse> postLike) {
 		this.id = entity.getId();
 		this.userId = entity.getUser().getId();
 		this.userName = entity.getUser().getUserName();
 		this.title = entity.getTitle();
 		this.text = entity.getText();
+		this.postLike = postLike;
 	}
-	
 	
 	public Long getId() {
 		return id;
@@ -51,6 +54,18 @@ public class PostResponse {
 	}
 	public void setText(String text) {
 		this.text = text;
+	}
+
+
+
+	public List<LikeResponse> getPostLike() {
+		return postLike;
+	}
+
+
+
+	public void setPostLike(List<LikeResponse> postLike) {
+		this.postLike = postLike;
 	}
 	
 	

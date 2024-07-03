@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.springFullStackProject.fullStackProject.entities.Post;
@@ -11,17 +12,24 @@ import com.springFullStackProject.fullStackProject.entities.User;
 import com.springFullStackProject.fullStackProject.repos.PostRepository;
 import com.springFullStackProject.fullStackProject.requests.PostCreateRequest;
 import com.springFullStackProject.fullStackProject.requests.PostUpdateRequest;
+import com.springFullStackProject.fullStackProject.responses.LikeResponse;
 import com.springFullStackProject.fullStackProject.responses.PostResponse;
 
 @Service
 public class PostService {
 
 	private PostRepository postRepository;
+	private LikeService likeService;
 	private UserServices userService;
 	
 	public PostService(PostRepository postRepository, UserServices userService) {
 		this.postRepository = postRepository;
 		this.userService = userService;
+	}
+	
+	@Autowired
+	public void setLikeService(LikeService likeService) {
+		this.likeService = likeService;
 	}
 	
 	public List<PostResponse> getAllPosts(Optional <Long> userId){
@@ -33,10 +41,10 @@ public class PostService {
 			list = postRepository.findAll();
 		}
 		
-		//return list.stream().map(p -> new PostResponse(p)).collect(Collectors.toList());
-		
 		for (Post post : list) {
-			prList.add(new PostResponse(post));
+			List<LikeResponse> postLikes= likeService.getAllLikes(Optional.of(post.getId()),Optional.ofNullable(null));
+			prList.add(new PostResponse(post, postLikes));  //return list.stream().map(p -> new PostResponse(p)).collect(Collectors.toList());
+
 		}
 		return prList;
 	}	

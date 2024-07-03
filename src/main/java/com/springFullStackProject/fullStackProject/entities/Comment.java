@@ -14,7 +14,9 @@ import lombok.Data;
 public class Comment {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
 	@ManyToOne(fetch = FetchType.EAGER)  // Post çağırıldığında user objesini direkt getirme
 	@JoinColumn(name="post_id", nullable=false)
 	@OnDelete(action = OnDeleteAction.CASCADE) // user silindiğinde postlari da uçur

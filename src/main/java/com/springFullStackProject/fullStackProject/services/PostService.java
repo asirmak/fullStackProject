@@ -1,5 +1,6 @@
 package com.springFullStackProject.fullStackProject.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,6 +11,7 @@ import com.springFullStackProject.fullStackProject.entities.User;
 import com.springFullStackProject.fullStackProject.repos.PostRepository;
 import com.springFullStackProject.fullStackProject.requests.PostCreateRequest;
 import com.springFullStackProject.fullStackProject.requests.PostUpdateRequest;
+import com.springFullStackProject.fullStackProject.responses.PostResponse;
 
 @Service
 public class PostService {
@@ -22,13 +24,23 @@ public class PostService {
 		this.userService = userService;
 	}
 	
-	public List<Post> getAllPosts(Optional <Long> userId){
+	public List<PostResponse> getAllPosts(Optional <Long> userId){
+		List <Post> list;
+		List <PostResponse> prList = new ArrayList<PostResponse>();
 		if (userId.isPresent()) {
-			return postRepository.findByUserId(userId.get());
+			list = postRepository.findByUserId(userId.get());
 		}else {
-			return postRepository.findAll();
+			list = postRepository.findAll();
 		}
-	}
+		
+		//return list.stream().map(p -> new PostResponse(p)).collect(Collectors.toList());
+		
+		for (Post post : list) {
+			prList.add(new PostResponse(post));
+		}
+		return prList;
+	}	
+	
 
 	public Post getOnePost(Long postId) {
 		return postRepository.findById(postId).orElse(null);

@@ -3,8 +3,6 @@ package com.springFullStackProject.fullStackProject.entities;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -23,10 +21,9 @@ public class Post {
 	@Id
 	private Long id;
 
-	@ManyToOne(fetch = FetchType.LAZY)  // Post çağırıldığında user objesini direkt getirme
+	@ManyToOne(fetch = FetchType.EAGER)  // Post çağırıldığında user objesini direkt getirme
 	@JoinColumn(name="user_id", nullable=false)
 	@OnDelete(action = OnDeleteAction.CASCADE) // user silindiğinde postlari da uçur
-	@JsonIgnore // serialization'da sorun yaratmasın diye
 	private User user;
 	
 	private String title;

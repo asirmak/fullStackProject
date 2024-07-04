@@ -48,7 +48,6 @@ public class AutController {
 	        AuthResponse authResponse = new AuthResponse();
 	        authResponse.setMessage("Bearer " + jwtToken);
 	        authResponse.setUserId(user.getId());
-	        System.out.println(authResponse.getMessage());
 	        return authResponse;
 	}
 

@@ -2,6 +2,7 @@ package com.springFullStackProject.fullStackProject.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -64,18 +65,21 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-    	httpSecurity
-    	    .cors(Customizer.withDefaults())
+        httpSecurity
+            .cors(Customizer.withDefaults())
             .csrf(csrf -> csrf.disable())
             .exceptionHandling(exceptionHandling -> exceptionHandling.authenticationEntryPoint(handler))
             .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                 .requestMatchers("/auth/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/posts").permitAll()
+                .requestMatchers(HttpMethod.GET, "/comments").permitAll()
                 .anyRequest().authenticated()
             );
 
-    	httpSecurity.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
-    	return httpSecurity.build();
+        httpSecurity.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+        return httpSecurity.build();
     }
+
 
 }

@@ -7,6 +7,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.springFullStackProject.fullStackProject.services.UserDetailsServiceImpl;
@@ -32,9 +33,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
 	    try {
 	        if (jwtToken != null && jwtTokenProvider.validateToken(jwtToken)) {
 	            Long userId = jwtTokenProvider.getUserIdFromJwt(jwtToken);
-	            logger.info("User ID from JWT: " + userId);
-
-	            UserDetails userDetails = userDetailsService.loadUserByUsername(userId.toString());
+	            logger.info("User ID from JWT: " + userId);	
+	            UserDetails userDetails = userDetailsService.loadUserById(userId);
 	            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 	            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
@@ -50,11 +50,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
 	}
 
 	private String getJwtFromRequest(HttpServletRequest request) {
-        String bearerToken = request.getHeader("Authorization");
-        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
-            return bearerToken.substring(7);
-        }
-        return null;
+		String bearer = request.getHeader("Authorization");
+		if(StringUtils.hasText(bearer) && bearer.startsWith("Bearer "))
+			return bearer.substring("Bearer".length() + 1);
+		return null;
     }
 
 }

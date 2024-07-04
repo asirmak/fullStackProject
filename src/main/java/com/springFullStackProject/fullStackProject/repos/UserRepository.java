@@ -6,4 +6,6 @@ import com.springFullStackProject.fullStackProject.entities.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
+	User findByUserName(String username);
+
 }

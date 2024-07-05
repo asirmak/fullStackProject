@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.springFullStackProject.fullStackProject.entities.User;
+import com.springFullStackProject.fullStackProject.responses.UserResponse;
 import com.springFullStackProject.fullStackProject.services.UserServices;
 
 @RestController
@@ -35,8 +36,8 @@ public class UserControllers {
 	}
 
 	@GetMapping("/{user_id}")
-	public User getOneUser(@PathVariable Long user_id){
-		return userServices.getOneUser(user_id);
+	public UserResponse getOneUser(@PathVariable Long user_id){
+		return new UserResponse(userServices.getOneUser(user_id));
 	}
 	
 	@PutMapping("/{user_id}")
@@ -49,5 +50,9 @@ public class UserControllers {
 		userServices.deleteOneUser(user_id);
 	}
 	
+	@GetMapping("/activity/{user_id}")
+	public List<Object> getUserActivity(@PathVariable Long user_id){
+		return userServices.getUserActivity(user_id);
+	}
 	
 }

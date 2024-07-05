@@ -1,5 +1,6 @@
 package com.springFullStackProject.fullStackProject.services;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,6 +51,7 @@ public class CommentService {
 			Comment commentToSave = new Comment();
 			commentToSave.setId(commentRequest.getId());
 			commentToSave.setText(commentRequest.getText());
+			commentToSave.setCreateDate(new Date());
 			commentToSave.setUser(user);
 			commentToSave.setPost(post);
 			return commentRepository.save(commentToSave);

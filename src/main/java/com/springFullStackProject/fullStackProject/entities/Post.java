@@ -1,5 +1,7 @@
 package com.springFullStackProject.fullStackProject.entities;
 
+import java.util.Date;
+
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -13,6 +15,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import lombok.Data;
 
 @Entity
@@ -33,6 +37,19 @@ public class Post {
 	@Lob
 	@Column(columnDefinition="text")
 	private String text;
+	
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date createDate;
+	
+	
+	
+	public Date getCreateDate() {
+		return createDate;
+	}
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
 	public Long getId() {
 		return id;
 	}

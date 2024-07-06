@@ -1,5 +1,6 @@
 package com.springFullStackProject.fullStackProject.services;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -12,6 +13,7 @@ import com.springFullStackProject.fullStackProject.entities.User;
 import com.springFullStackProject.fullStackProject.repos.CommentRepository;
 import com.springFullStackProject.fullStackProject.requests.CommentCreateRequest;
 import com.springFullStackProject.fullStackProject.requests.CommentUpdateRequest;
+import com.springFullStackProject.fullStackProject.responses.CommentResponse;
 
 @Service
 public class CommentService {
@@ -27,17 +29,37 @@ public class CommentService {
 		this.postService = postService;
 	}
 
-	public List<Comment> getAllComments(Optional<Long> userId, Optional<Long> postId) {
+	public List<CommentResponse> getAllComments(Optional<Long> userId, Optional<Long> postId) {
+		List <CommentResponse> responseCommentList = new ArrayList<>();
 		if(userId.isPresent() && postId.isPresent()) {
-			return commentRepository.findByUserIdAndPostId(userId.get(), postId.get());
+			List <Comment> commentList = commentRepository.findByUserIdAndPostId(userId.get(), postId.get());
+			for (Comment comment : commentList) {
+				responseCommentList.add( new CommentResponse(comment));
+			}
+			return responseCommentList;
 		}
-		if (userId.isPresent()) {
-			return commentRepository.findByUserId(userId.get());
+		else if (userId.isPresent()) {
+			List <Comment> commentList = commentRepository.findByUserId(userId.get());
+			for (Comment comment : commentList) {
+				responseCommentList.add( new CommentResponse(comment));
+			}
+			return responseCommentList;
+
 		}
 		else if(postId.isPresent()) {
-			return commentRepository.findByPostId(postId.get());
+			List <Comment> commentList = commentRepository.findByPostId(postId.get());
+			for (Comment comment : commentList) {
+				responseCommentList.add( new CommentResponse(comment));
+			}
+			return responseCommentList;
 		}
-		else return commentRepository.findAll();
+		else {
+			List <Comment> commentList = commentRepository.findAll();
+			for (Comment comment : commentList) {
+				responseCommentList.add( new CommentResponse(comment));
+			}
+			return responseCommentList;
+		}
 	}
 
 	public Comment getOneComment(Long commentId) {

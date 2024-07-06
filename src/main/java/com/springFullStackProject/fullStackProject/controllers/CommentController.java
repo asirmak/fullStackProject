@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.springFullStackProject.fullStackProject.entities.Comment;
 import com.springFullStackProject.fullStackProject.requests.CommentCreateRequest;
 import com.springFullStackProject.fullStackProject.requests.CommentUpdateRequest;
+import com.springFullStackProject.fullStackProject.responses.CommentResponse;
 import com.springFullStackProject.fullStackProject.services.CommentService;
 
 @RestController
@@ -29,7 +30,7 @@ public class CommentController {
 	}
 	
 	@GetMapping()
-	public List<Comment> getAllComments(@RequestParam Optional<Long> userId, 
+	public List<CommentResponse> getAllComments(@RequestParam Optional<Long> userId, 
 			@RequestParam Optional<Long> postId){
 		return commentService.getAllComments(userId, postId);
 	}

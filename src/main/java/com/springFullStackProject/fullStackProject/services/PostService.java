@@ -3,6 +3,7 @@ package com.springFullStackProject.fullStackProject.services;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,11 +43,15 @@ public class PostService {
 			list = postRepository.findAll();
 		}
 		
-		for (Post post : list) {
+		ListIterator<Post> iterator = list.listIterator(list.size());
+		
+		while(iterator.hasPrevious()) {
+			Post post = iterator.previous();
 			List<LikeResponse> postLikes= likeService.getAllLikes(Optional.of(post.getId()),Optional.ofNullable(null));
-			prList.add(new PostResponse(post, postLikes));  //return list.stream().map(p -> new PostResponse(p)).collect(Collectors.toList());
+			prList.add(new PostResponse(post, postLikes));
 
 		}
+		
 		return prList;
 	}	
 	

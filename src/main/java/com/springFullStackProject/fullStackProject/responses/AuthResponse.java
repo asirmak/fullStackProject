@@ -7,9 +7,16 @@ public class AuthResponse {
 
 	private String message;
 	private Long userId;
+	private int avatarId;
 	private String accessToken;
 	private String refreshToken;
 	
+	public int getAvatarId() {
+		return avatarId;
+	}
+	public void setAvatarId(int avatarId) {
+		this.avatarId = avatarId;
+	}
 	public String getAccessToken() {
 		return accessToken;
 	}

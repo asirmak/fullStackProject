@@ -48,7 +48,9 @@ public class PostService {
 		while(iterator.hasPrevious()) {
 			Post post = iterator.previous();
 			List<LikeResponse> postLikes= likeService.getAllLikes(Optional.of(post.getId()),Optional.ofNullable(null));
-			prList.add(new PostResponse(post, postLikes));
+			User user = userService.getOneUser(post.getUser().getId());
+			
+			prList.add(new PostResponse(post, postLikes, user));
 
 		}
 		
@@ -64,8 +66,9 @@ public class PostService {
 		Post post = postRepository.findById(postId).orElse(null);
 				
 		List<LikeResponse> postLikes= likeService.getAllLikes(Optional.of(postId),Optional.ofNullable(null));
+		User user = userService.getOneUser(post.getUser().getId());
 
-		return new PostResponse(post, postLikes);
+		return new PostResponse(post, postLikes, user);
 	}
 
 	public Post createOnePost(PostCreateRequest newPostRequest) {

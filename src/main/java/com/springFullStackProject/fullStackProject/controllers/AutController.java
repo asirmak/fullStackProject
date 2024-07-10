@@ -56,6 +56,7 @@ public class AutController {
 	        authResponse.setAccessToken("Bearer " + jwtToken);
 	        authResponse.setRefreshToken(refreshTokenService.createRefreshToken(user));
 	        authResponse.setUserId(user.getId());
+	        authResponse.setAvatarId(user.getAvatar());
 	        return authResponse;
 	}
 

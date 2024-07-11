@@ -11,6 +11,7 @@ public class CommentResponse {
 	private String userName;
 	private String text;
 	private Date createDate;
+	private int avatarId;
 	
 	public CommentResponse(Comment entity) {
 		this.id = entity.getId();
@@ -18,6 +19,15 @@ public class CommentResponse {
 		this.userName = entity.getUser().getUserName();
 		this.text = entity.getText();
 		this.createDate = entity.getCreateDate();
+		this.avatarId = entity.getUser().getAvatar();
+	}
+
+	public int getAvatarId() {
+		return avatarId;
+	}
+
+	public void setAvatarId(int avatarId) {
+		this.avatarId = avatarId;
 	}
 
 	public Date getCreateDate() {

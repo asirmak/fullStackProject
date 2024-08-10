@@ -35,9 +35,12 @@ The project follows a layered architecture, which includes:
 - Secure endpoints using role-based access control.
 - Token-based authentication for APIs.
 
-### Prerequisites
+## Prerequisites
 
 - JDK 21
 - Maven
 - MySQL or another relational database
 - IDE (Eclipse EE - Jun 2024)
+
+## Frontend
+The frontend for this social media platform is built with React. You can find the frontend code and setup instructions [here](https://github.com/asirmak/my-app-react-demo).
